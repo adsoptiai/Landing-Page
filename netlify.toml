@@ -1,0 +1,208 @@
+# ==============================================
+# AdsOpti AI Landing Page - Netlify Configuration
+# Optimized for performance and security
+# ==============================================
+
+[build]
+  # Publish the root directory (no build process needed)
+  publish = "."
+  
+  # No build command needed for static site
+  # command = ""
+
+[build.environment]
+  # Environment variables for build (if needed in future)
+  NODE_VERSION = "18"
+
+# ==============================================
+# Security Headers
+# ==============================================
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Security headers
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=()"
+    
+    # Content Security Policy
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data: https://www.google-analytics.com;
+      connect-src 'self' https://www.google-analytics.com;
+      frame-ancestors 'none';
+      base-uri 'self';
+      form-action 'self';
+    """
+    
+    # Performance headers
+    Cache-Control = "public, max-age=3600"
+
+# ==============================================
+# Static Asset Caching
+# ==============================================
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/javascript"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "text/css"
+
+[[headers]]
+  for = "/*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "font/woff2"
+
+[[headers]]
+  for = "/*.woff"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "font/woff"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "image/png"
+
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "image/jpeg"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "image/svg+xml"
+
+# ==============================================
+# HTML Headers (Short cache for updates)
+# ==============================================
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=1800, must-revalidate"
+    Content-Type = "text/html; charset=UTF-8"
+
+# ==============================================
+# Redirects for SPA behavior and SEO
+# ==============================================
+[[redirects]]
+  # Catch all redirect for client-side routing (if needed in future)
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  conditions = {Role = ["visitor"]}
+
+# Optional: Redirect www to non-www (uncomment if using custom domain)
+# [[redirects]]
+#   from = "https://www.adsopti.ai/*"
+#   to = "https://adsopti.ai/:splat"
+#   status = 301
+#   force = true
+
+# Optional: Redirect HTTP to HTTPS (automatic on Netlify but can be explicit)
+# [[redirects]]
+#   from = "http://adsopti.ai/*"
+#   to = "https://adsopti.ai/:splat"
+#   status = 301
+#   force = true
+
+# ==============================================
+# Form Processing Configuration
+# ==============================================
+[forms]
+  # Form submission notification email
+  # notification_email = "founders@adsopti.ai"
+
+# ==============================================
+# Edge Functions Configuration (Future)
+# ==============================================
+# [[edge_functions]]
+#   function = "geolocation"
+#   path = "/*"
+
+# ==============================================
+# Plugin Configuration
+# ==============================================
+[[plugins]]
+  package = "netlify-plugin-sitemap"
+  
+  [plugins.inputs]
+    buildDir = "."
+    exclude = [
+      '/admin/**',
+      '/private/**'
+    ]
+
+# ==============================================
+# Context-Specific Settings
+# ==============================================
+[context.production.environment]
+  # Production environment variables
+  ENVIRONMENT = "production"
+  GA_MEASUREMENT_ID = "GA_MEASUREMENT_ID"
+
+[context.deploy-preview.environment]
+  # Deploy preview environment variables
+  ENVIRONMENT = "preview"
+  GA_MEASUREMENT_ID = ""
+
+[context.branch-deploy.environment]
+  # Branch deploy environment variables
+  ENVIRONMENT = "development"
+  GA_MEASUREMENT_ID = ""
+
+# ==============================================
+# Performance Optimizations
+# ==============================================
+[build.processing]
+  # Skip processing (we're handling optimization manually)
+  skip_processing = false
+
+[build.processing.css]
+  # Enable CSS minification
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  # Enable JS minification
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  # Enable HTML minification
+  pretty_urls = true
+
+[build.processing.images]
+  # Enable image optimization
+  compress = true
+
+# ==============================================
+# Dev Server Configuration (for local development)
+# ==============================================
+[dev]
+  # Command to run for local development
+  # command = "python -m http.server 8888"
+  
+  # Port for local development
+  port = 8888
+  
+  # Automatically open browser
+  autoLaunch = true
+  
+  # Framework detection
+  framework = "#static"

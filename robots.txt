@@ -1,0 +1,104 @@
+# ==============================================
+# AdsOpti AI Landing Page - Robots.txt
+# SEO configuration for search engine crawlers
+# ==============================================
+
+User-agent: *
+Allow: /
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Block admin areas (if they exist in future)
+User-agent: *
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.netlify/
+Disallow: /api/internal/
+
+# Block development files
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /.env
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /yarn.lock
+Disallow: /.gitignore
+Disallow: /README.md
+Disallow: /CLAUDE.md
+
+# Block log files
+Disallow: /*.log
+Disallow: /logs/
+
+# Block temporary files
+Disallow: /tmp/
+Disallow: /cache/
+Disallow: /*.tmp
+
+# Allow important SEO files
+Allow: /sitemap.xml
+Allow: /robots.txt
+Allow: /favicon.ico
+Allow: /.well-known/
+
+# Crawl-delay for aggressive crawlers
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Crawl-delay: 10
+
+# Block problematic bots
+User-agent: Bytespider
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+# Sitemap location
+Sitemap: https://adsopti-validation.netlify.app/sitemap.xml
+
+# Alternative sitemap locations (uncomment when custom domain is set up)
+# Sitemap: https://adsopti.ai/sitemap.xml
+# Sitemap: https://www.adsopti.ai/sitemap.xml
