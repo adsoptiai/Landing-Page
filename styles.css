@@ -105,6 +105,13 @@ body {
     overflow-x: hidden;
 }
 
+/* Traditional Chinese font support */
+:lang(zh-TW),
+[lang="zh-TW"],
+.lang-zh-TW {
+    font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', '微軟雅黑', 'PingFang TC', 'Hiragino Sans GB', sans-serif;
+}
+
 /* Container */
 .container {
     max-width: 1200px;
@@ -169,6 +176,12 @@ body {
     align-items: center;
 }
 
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
 .logo {
     max-height: 50px;
     height: auto;
@@ -189,6 +202,124 @@ body {
     font-size: 0.75rem;
     font-weight: 600;
     animation: pulse 2s infinite;
+}
+
+/* ==============================================
+   Language Switcher
+   ============================================== */
+.language-switcher {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(229, 231, 235, 0.6);
+    border-radius: var(--radius-lg);
+    padding: 2px;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+}
+
+.language-switcher:hover {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: var(--shadow-md);
+}
+
+.lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray);
+    position: relative;
+    overflow: hidden;
+}
+
+.lang-btn:hover {
+    background: rgba(91, 63, 249, 0.1);
+    color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.lang-btn.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.lang-btn.active:hover {
+    background: var(--primary-dark);
+    color: white;
+}
+
+.lang-btn .flag {
+    font-size: 1rem;
+    line-height: 1;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.lang-btn .lang-text {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+/* Language switching animation */
+.lang-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease-out;
+}
+
+.lang-btn.switching::before {
+    left: 100%;
+}
+
+/* Language-specific text adjustments */
+.lang-zh-TW .hero-title {
+    font-size: calc(var(--font-size-hero) * 0.95);
+    letter-spacing: 0.02em;
+}
+
+.lang-zh-TW .pain-title,
+.lang-zh-TW .form-header h2,
+.lang-zh-TW .section-header h2 {
+    letter-spacing: 0.01em;
+}
+
+/* Mobile responsive language switcher */
+@media (max-width: 768px) {
+    .nav-right {
+        gap: var(--spacing-sm);
+    }
+    
+    .language-switcher {
+        padding: 1px;
+    }
+    
+    .lang-btn {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+    
+    .lang-btn .lang-text {
+        display: none;
+    }
+    
+    .lang-btn .flag {
+        font-size: 1.1rem;
+    }
 }
 
 /* ==============================================

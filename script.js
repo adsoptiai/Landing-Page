@@ -14,11 +14,273 @@ const CONFIG = {
     FORM_SAVE_KEY: 'adsopti_form_progress',
     VISITOR_COUNT_KEY: 'adsopti_visitor_count',
     EXIT_SHOWN_KEY: 'adsopti_exit_shown',
+    LANGUAGE_KEY: 'adsopti_language',
     NOTIFICATION_INTERVAL: 45000, // 45 seconds
     TYPING_SPEED: 100,
     ERASE_SPEED: 50,
-    TYPING_DELAY: 2000
+    TYPING_DELAY: 2000,
+    SUPPORTED_LANGUAGES: ['en', 'zh-TW'],
+    DEFAULT_LANGUAGE: 'en',
+    TAIWAN_IP_API: 'https://ipapi.co/json/'  // Free IP geolocation service
 };
+
+// ==============================================
+// Language Detection & Management
+// ==============================================
+class LanguageManager {
+    constructor() {
+        this.currentLanguage = CONFIG.DEFAULT_LANGUAGE;
+        this.translations = typeof translations !== 'undefined' ? translations : {};
+        this.isDetecting = false;
+        this.initPromise = this.init();
+    }
+
+    async init() {
+        try {
+            // Load saved language preference or detect automatically
+            const savedLang = localStorage.getItem(CONFIG.LANGUAGE_KEY);
+            if (savedLang && CONFIG.SUPPORTED_LANGUAGES.includes(savedLang)) {
+                this.currentLanguage = savedLang;
+            } else {
+                this.currentLanguage = await this.detectUserLanguage();
+            }
+            
+            await this.applyLanguage(this.currentLanguage);
+            this.setupLanguageSwitcher();
+        } catch (error) {
+            console.warn('Language initialization failed:', error);
+            this.currentLanguage = CONFIG.DEFAULT_LANGUAGE;
+            await this.applyLanguage(this.currentLanguage);
+        }
+    }
+
+    async detectUserLanguage() {
+        if (this.isDetecting) return this.currentLanguage;
+        this.isDetecting = true;
+
+        try {
+            // 1. Try to detect Taiwan via IP geolocation
+            const response = await fetch(CONFIG.TAIWAN_IP_API, {
+                method: 'GET',
+                timeout: 3000
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.country_code === 'TW') {
+                    Analytics.track('language_auto_detected', {
+                        method: 'ip_geolocation',
+                        detected_language: 'zh-TW',
+                        country: 'Taiwan'
+                    });
+                    return 'zh-TW';
+                }
+            }
+        } catch (error) {
+            console.warn('IP geolocation failed:', error);
+        }
+
+        // 2. Fallback to browser language detection
+        const browserLang = navigator.language || navigator.languages?.[0];
+        if (browserLang) {
+            if (browserLang.toLowerCase().includes('zh') && 
+                (browserLang.includes('TW') || browserLang.includes('Hant'))) {
+                Analytics.track('language_auto_detected', {
+                    method: 'browser_language',
+                    detected_language: 'zh-TW',
+                    browser_lang: browserLang
+                });
+                return 'zh-TW';
+            }
+        }
+
+        // 3. Default to English
+        Analytics.track('language_auto_detected', {
+            method: 'default',
+            detected_language: 'en',
+            browser_lang: browserLang
+        });
+        
+        this.isDetecting = false;
+        return CONFIG.DEFAULT_LANGUAGE;
+    }
+
+    async applyLanguage(langCode) {
+        if (!CONFIG.SUPPORTED_LANGUAGES.includes(langCode)) {
+            langCode = CONFIG.DEFAULT_LANGUAGE;
+        }
+
+        const startTime = performance.now();
+        this.currentLanguage = langCode;
+        
+        // Update document language
+        document.documentElement.lang = langCode;
+        document.body.className = document.body.className.replace(/lang-\w+/g, '');
+        document.body.classList.add(`lang-${langCode}`);
+
+        // Update meta tags
+        this.updateMetaTags(langCode);
+
+        // Update all translatable elements
+        this.translateElements();
+
+        // Update language switcher UI
+        this.updateLanguageSwitcher();
+
+        // Save preference
+        localStorage.setItem(CONFIG.LANGUAGE_KEY, langCode);
+
+        const endTime = performance.now();
+        Analytics.track('language_applied', {
+            language: langCode,
+            performance_ms: Math.round(endTime - startTime),
+            method: 'apply_language'
+        });
+    }
+
+    translateElements() {
+        const currentTranslations = this.translations[this.currentLanguage] || this.translations[CONFIG.DEFAULT_LANGUAGE];
+        
+        // Translate elements with data-i18n attribute
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            const translation = this.getNestedTranslation(currentTranslations, key);
+            
+            if (translation) {
+                const params = this.parseParams(element.getAttribute('data-i18n-params'));
+                element.textContent = this.interpolate(translation, params);
+            }
+        });
+
+        // Translate elements with data-i18n-html attribute (allows HTML)
+        document.querySelectorAll('[data-i18n-html]').forEach(element => {
+            const key = element.getAttribute('data-i18n-html');
+            const translation = this.getNestedTranslation(currentTranslations, key);
+            
+            if (translation) {
+                const params = this.parseParams(element.getAttribute('data-i18n-params'));
+                element.innerHTML = this.interpolate(translation, params);
+            }
+        });
+
+        // Translate placeholder attributes
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+            const key = element.getAttribute('data-i18n-placeholder');
+            const translation = this.getNestedTranslation(currentTranslations, key);
+            
+            if (translation) {
+                element.setAttribute('placeholder', translation);
+            }
+        });
+
+        // Update typing animation texts
+        this.updateTypingAnimations();
+    }
+
+    getNestedTranslation(obj, path) {
+        return path.split('.').reduce((current, key) => current && current[key], obj);
+    }
+
+    parseParams(paramsStr) {
+        if (!paramsStr) return {};
+        try {
+            return JSON.parse(paramsStr);
+        } catch (error) {
+            console.warn('Failed to parse i18n params:', paramsStr);
+            return {};
+        }
+    }
+
+    interpolate(text, params) {
+        if (!params || typeof text !== 'string') return text;
+        
+        return text.replace(/\{(\w+)\}/g, (match, key) => {
+            return params[key] !== undefined ? params[key] : match;
+        });
+    }
+
+    updateMetaTags(langCode) {
+        const currentTranslations = this.translations[langCode] || this.translations[CONFIG.DEFAULT_LANGUAGE];
+        
+        // Update title
+        if (currentTranslations.title) {
+            document.title = currentTranslations.title;
+        }
+
+        // Update meta description
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc && currentTranslations.description) {
+            metaDesc.setAttribute('content', currentTranslations.description);
+        }
+    }
+
+    updateTypingAnimations() {
+        const currentTranslations = this.translations[this.currentLanguage] || this.translations[CONFIG.DEFAULT_LANGUAGE];
+        
+        // Update typing text content for existing animations
+        document.querySelectorAll('.typing-text').forEach(element => {
+            const dataText = element.getAttribute('data-text');
+            let translatedText = dataText;
+            
+            // Map common typing texts to translations
+            if (dataText === '44% of Budget' && currentTranslations.hero_title_waste) {
+                translatedText = currentTranslations.hero_title_waste;
+            } else if (dataText === 'Fix It in One Click.' && currentTranslations.hero_title_fix) {
+                translatedText = currentTranslations.hero_title_fix;
+            }
+            
+            element.setAttribute('data-text', translatedText);
+            element.textContent = translatedText;
+        });
+    }
+
+    setupLanguageSwitcher() {
+        const langButtons = document.querySelectorAll('.lang-btn');
+        
+        langButtons.forEach(button => {
+            button.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const targetLang = button.getAttribute('data-lang');
+                
+                if (targetLang !== this.currentLanguage) {
+                    // Add switching animation
+                    button.classList.add('switching');
+                    
+                    // Track language switch
+                    Analytics.track('language_switched', {
+                        from: this.currentLanguage,
+                        to: targetLang,
+                        method: 'manual_switch'
+                    });
+                    
+                    await this.applyLanguage(targetLang);
+                    
+                    // Remove animation class
+                    setTimeout(() => {
+                        button.classList.remove('switching');
+                    }, 500);
+                }
+            });
+        });
+    }
+
+    updateLanguageSwitcher() {
+        const langButtons = document.querySelectorAll('.lang-btn');
+        
+        langButtons.forEach(button => {
+            const buttonLang = button.getAttribute('data-lang');
+            button.classList.toggle('active', buttonLang === this.currentLanguage);
+        });
+    }
+
+    getCurrentLanguage() {
+        return this.currentLanguage;
+    }
+
+    isChineseLanguage() {
+        return this.currentLanguage === 'zh-TW';
+    }
+}
 
 // ==============================================
 // Global State Management
@@ -32,6 +294,7 @@ class AppState {
         this.notificationTimer = null;
         this.countdownTimer = null;
         this.typingAnimations = [];
+        this.languageManager = new LanguageManager();
     }
 
     // Form Progress Management
@@ -1329,11 +1592,19 @@ let appState;
 let pageLoadTime;
 
 // Initialize everything when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     pageLoadTime = Date.now();
     
     // Initialize global state
     appState = new AppState();
+    
+    // Wait for language manager to initialize
+    try {
+        await appState.languageManager.initPromise;
+        console.log('🌍 Language initialized:', appState.languageManager.getCurrentLanguage());
+    } catch (error) {
+        console.warn('Language initialization failed:', error);
+    }
     
     // Initialize all managers
     const scrollAnimations = new ScrollAnimations();
@@ -1348,34 +1619,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const visitorCountManager = new VisitorCountManager();
     const performanceManager = new PerformanceManager();
     
-    // Initialize typing animations
-    const typingElements = document.querySelectorAll('.typing-text');
-    typingElements.forEach(element => {
-        const text = element.dataset.text || element.textContent;
-        const typingAnimation = new TypingAnimation(element, [text], {
-            typeSpeed: 100,
-            loop: false
-        });
-        
-        // Start typing animation when element comes into view
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    typingAnimation.start();
-                    observer.unobserve(element);
-                }
+    // Initialize typing animations (after language is applied)
+    setTimeout(() => {
+        const typingElements = document.querySelectorAll('.typing-text');
+        typingElements.forEach(element => {
+            const text = element.dataset.text || element.textContent;
+            const typingAnimation = new TypingAnimation(element, [text], {
+                typeSpeed: appState.languageManager.isChineseLanguage() ? 80 : 100, // Slower for Chinese
+                loop: false
             });
-        }, { threshold: 0.5 });
-        
-        observer.observe(element);
-    });
+            
+            // Start typing animation when element comes into view
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        typingAnimation.start();
+                        observer.unobserve(element);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            observer.observe(element);
+        });
+    }, 100); // Small delay to ensure language is applied
     
-    // Track page view
+    // Track page view with language information
     Analytics.track('page_view', {
         page_title: document.title,
         user_agent: navigator.userAgent,
         screen_resolution: `${screen.width}x${screen.height}`,
-        viewport_size: `${window.innerWidth}x${window.innerHeight}`
+        viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+        language: appState.languageManager.getCurrentLanguage(),
+        browser_language: navigator.language || navigator.languages?.[0]
     });
     
     console.log('🚀 AdsOpti AI Landing Page Loaded Successfully');

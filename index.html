@@ -11,6 +11,22 @@
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="preload" href="styles.css" as="style">
     <link rel="preload" href="script.js" as="script">
+    <link rel="preload" href="translations.js" as="script">
+    
+    <!-- Traditional Chinese font support -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- SEO & Language Meta Tags -->
+    <link rel="alternate" hreflang="en" href="https://adsopti-validation.netlify.app/">
+    <link rel="alternate" hreflang="zh-TW" href="https://adsopti-validation.netlify.app/">
+    <link rel="alternate" hreflang="x-default" href="https://adsopti-validation.netlify.app/">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AdsOpti AI">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="zh_TW">
     
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
@@ -31,7 +47,20 @@
         <div class="container">
             <div class="nav-container">
                 <img src="AdsOpti_logo.png" alt="AdsOpti AI" class="logo" width="200" height="auto">
-                <span class="nav-badge">Beta Testing</span>
+                <div class="nav-right">
+                    <!-- Language Switcher -->
+                    <div class="language-switcher" role="group" aria-label="Language selector">
+                        <button class="lang-btn active" data-lang="en" aria-label="Switch to English">
+                            <span class="flag">🇺🇸</span>
+                            <span class="lang-text">EN</span>
+                        </button>
+                        <button class="lang-btn" data-lang="zh-TW" aria-label="Switch to Traditional Chinese">
+                            <span class="flag">🇹🇼</span>
+                            <span class="lang-text">中文</span>
+                        </button>
+                    </div>
+                    <span class="nav-badge" data-i18n="nav_badge">Beta Testing</span>
+                </div>
             </div>
         </div>
     </nav>
@@ -40,14 +69,14 @@
     <section class="hero" role="banner">
         <div class="hero-bg-particles" aria-hidden="true"></div>
         <div class="container">
-            <div class="urgency-bar" role="alert" aria-live="polite">
+            <div class="urgency-bar" role="alert" aria-live="polite" data-i18n="urgency_bar" data-i18n-params='{"spots": "67"}'>
                 ⚡ Limited Beta: <span id="spots-remaining">67</span> of 100 spots remaining
             </div>
-            <h1 class="hero-title">
+            <h1 class="hero-title" data-i18n-html="hero_title_full" data-i18n-params='{"waste": "44% of Budget", "fix": "Fix It in One Click."}'>
                 Your Ads Waste <span class="gradient-text typing-text" data-text="44% of Budget">44% of Budget</span>.<br>
                 <span class="typing-text" data-text="Fix It in One Click.">Fix It in One Click.</span>
             </h1>
-            <p class="subtitle">
+            <p class="subtitle" data-i18n="hero_subtitle" data-i18n-params='{"count": "500"}'>
                 Join <span class="visitor-count">500+</span> businesses already testing smarter ad management.<br>
                 Average savings: $8,400/month. Setup time: 10 minutes.
             </p>
@@ -58,57 +87,57 @@
     <section class="pain-points" aria-labelledby="pain-points-title">
         <div class="container">
             <div class="section-header">
-                <h2 id="pain-points-title">Which Problems Are <span class="gradient-text">Killing Your ROI?</span></h2>
-                <p>Click all that apply - be honest, we've all been there:</p>
+                <h2 id="pain-points-title" data-i18n-html="pain_points_title">Which Problems Are <span class="gradient-text">Killing Your ROI?</span></h2>
+                <p data-i18n="pain_points_subtitle">Click all that apply - be honest, we've all been there:</p>
             </div>
             
             <div class="pain-grid" role="group" aria-label="Select your pain points">
                 <div class="pain-card" role="button" tabindex="0" aria-pressed="false" data-pain="rising-costs">
                     <div class="check-indicator" aria-hidden="true"></div>
                     <div class="pain-icon" aria-hidden="true">📈</div>
-                    <div class="pain-stat" aria-hidden="true">38% ↑</div>
-                    <div class="pain-title">CPCs Rising Every Quarter</div>
-                    <div class="pain-desc">Google and Meta costs increased 38% YoY. You're paying more for the same (or worse) results.</div>
+                    <div class="pain-stat" aria-hidden="true" data-i18n="pain_rising_costs_stat">38% ↑</div>
+                    <div class="pain-title" data-i18n="pain_rising_costs_title">CPCs Rising Every Quarter</div>
+                    <div class="pain-desc" data-i18n="pain_rising_costs_desc">Google and Meta costs increased 38% YoY. You're paying more for the same (or worse) results.</div>
                 </div>
                 
                 <div class="pain-card" role="button" tabindex="0" aria-pressed="false" data-pain="time-waste">
                     <div class="check-indicator" aria-hidden="true"></div>
                     <div class="pain-icon" aria-hidden="true">⏰</div>
-                    <div class="pain-stat" aria-hidden="true">15+ hrs</div>
-                    <div class="pain-title">Weekly Manual Management</div>
-                    <div class="pain-desc">Adjusting bids, reallocating budgets, creating reports. There goes your weekend... again.</div>
+                    <div class="pain-stat" aria-hidden="true" data-i18n="pain_time_waste_stat">15+ hrs</div>
+                    <div class="pain-title" data-i18n="pain_time_waste_title">Weekly Manual Management</div>
+                    <div class="pain-desc" data-i18n="pain_time_waste_desc">Adjusting bids, reallocating budgets, creating reports. There goes your weekend... again.</div>
                 </div>
                 
                 <div class="pain-card" role="button" tabindex="0" aria-pressed="false" data-pain="attribution">
                     <div class="check-indicator" aria-hidden="true"></div>
                     <div class="pain-icon" aria-hidden="true">🎯</div>
-                    <div class="pain-stat" aria-hidden="true">iOS 14.5</div>
-                    <div class="pain-title">Attribution Is Completely Broken</div>
-                    <div class="pain-desc">Since iOS 14.5, you're flying blind. No idea what's actually driving conversions.</div>
+                    <div class="pain-stat" aria-hidden="true" data-i18n="pain_attribution_stat">iOS 14.5</div>
+                    <div class="pain-title" data-i18n="pain_attribution_title">Attribution Is Completely Broken</div>
+                    <div class="pain-desc" data-i18n="pain_attribution_desc">Since iOS 14.5, you're flying blind. No idea what's actually driving conversions.</div>
                 </div>
                 
                 <div class="pain-card" role="button" tabindex="0" aria-pressed="false" data-pain="platform-chaos">
                     <div class="check-indicator" aria-hidden="true"></div>
                     <div class="pain-icon" aria-hidden="true">🤯</div>
-                    <div class="pain-stat" aria-hidden="true">5+ Tools</div>
-                    <div class="pain-title">Platform Chaos & Tab Hell</div>
-                    <div class="pain-desc">Google, Meta, TikTok, Microsoft... Each with different interfaces, metrics, and reports.</div>
+                    <div class="pain-stat" aria-hidden="true" data-i18n="pain_platform_chaos_stat">5+ Tools</div>
+                    <div class="pain-title" data-i18n="pain_platform_chaos_title">Platform Chaos & Tab Hell</div>
+                    <div class="pain-desc" data-i18n="pain_platform_chaos_desc">Google, Meta, TikTok, Microsoft... Each with different interfaces, metrics, and reports.</div>
                 </div>
                 
                 <div class="pain-card" role="button" tabindex="0" aria-pressed="false" data-pain="competition">
                     <div class="check-indicator" aria-hidden="true"></div>
                     <div class="pain-icon" aria-hidden="true">💰</div>
-                    <div class="pain-stat" aria-hidden="true">10x Budget</div>
-                    <div class="pain-title">Competing With Enterprise Budgets</div>
-                    <div class="pain-desc">They have teams and tools you can't afford. It's David vs. Goliath, and Goliath has AI.</div>
+                    <div class="pain-stat" aria-hidden="true" data-i18n="pain_competition_stat">10x Budget</div>
+                    <div class="pain-title" data-i18n="pain_competition_title">Competing With Enterprise Budgets</div>
+                    <div class="pain-desc" data-i18n="pain_competition_desc">They have teams and tools you can't afford. It's David vs. Goliath, and Goliath has AI.</div>
                 </div>
                 
                 <div class="pain-card" role="button" tabindex="0" aria-pressed="false" data-pain="no-insights">
                     <div class="check-indicator" aria-hidden="true"></div>
                     <div class="pain-icon" aria-hidden="true">📊</div>
-                    <div class="pain-stat" aria-hidden="true">???</div>
-                    <div class="pain-title">No Idea What's Actually Working</div>
-                    <div class="pain-desc">Mountains of data, zero actionable insights. Analysis paralysis is real.</div>
+                    <div class="pain-stat" aria-hidden="true" data-i18n="pain_no_insights_stat">???</div>
+                    <div class="pain-title" data-i18n="pain_no_insights_title">No Idea What's Actually Working</div>
+                    <div class="pain-desc" data-i18n="pain_no_insights_desc">Mountains of data, zero actionable insights. Analysis paralysis is real.</div>
                 </div>
             </div>
         </div>
@@ -118,34 +147,34 @@
     <section class="roi-section" aria-labelledby="roi-title">
         <div class="container">
             <div class="section-header">
-                <h2 id="roi-title">Calculate Your <span class="gradient-text">Potential Savings</span></h2>
-                <p>See what AdsOpti AI could save you monthly:</p>
+                <h2 id="roi-title" data-i18n-html="roi_title">Calculate Your <span class="gradient-text">Potential Savings</span></h2>
+                <p data-i18n="roi_subtitle">See what AdsOpti AI could save you monthly:</p>
             </div>
             
             <div class="roi-calculator">
                 <div class="form-group">
-                    <label for="monthly-spend">Your Monthly Ad Spend</label>
-                    <input type="number" id="monthly-spend" placeholder="e.g., 10000" aria-describedby="spend-help">
-                    <small id="spend-help">Enter your total monthly advertising spend</small>
+                    <label for="monthly-spend" data-i18n="roi_monthly_spend_label">Your Monthly Ad Spend</label>
+                    <input type="number" id="monthly-spend" data-i18n-placeholder="roi_monthly_spend_placeholder" placeholder="e.g., 10000" aria-describedby="spend-help">
+                    <small id="spend-help" data-i18n="roi_monthly_spend_help">Enter your total monthly advertising spend</small>
                 </div>
                 
                 <div class="form-group">
-                    <label for="current-roas">Current ROAS (Return on Ad Spend)</label>
+                    <label for="current-roas" data-i18n="roi_current_roas_label">Current ROAS (Return on Ad Spend)</label>
                     <select id="current-roas" aria-describedby="roas-help">
-                        <option value="">Select your current ROAS</option>
-                        <option value="1.5">1.5x or less</option>
-                        <option value="2">2x</option>
-                        <option value="2.5">2.5x</option>
-                        <option value="3">3x</option>
-                        <option value="3.5">3.5x or more</option>
+                        <option value="" data-i18n="roi_options.select">Select your current ROAS</option>
+                        <option value="1.5" data-i18n="roi_options.1.5">1.5x or less</option>
+                        <option value="2" data-i18n="roi_options.2">2x</option>
+                        <option value="2.5" data-i18n="roi_options.2.5">2.5x</option>
+                        <option value="3" data-i18n="roi_options.3">3x</option>
+                        <option value="3.5" data-i18n="roi_options.3.5">3.5x or more</option>
                     </select>
-                    <small id="roas-help">How much revenue do you get per dollar spent?</small>
+                    <small id="roas-help" data-i18n="roi_current_roas_help">How much revenue do you get per dollar spent?</small>
                 </div>
                 
                 <div class="roi-result" id="roi-result" style="display: none;" role="region" aria-live="polite">
-                    <p>Estimated Monthly Savings:</p>
+                    <p data-i18n="roi_result_text">Estimated Monthly Savings:</p>
                     <div class="roi-amount" id="savings-amount">$0</div>
-                    <p>Plus ~15 hours of time back</p>
+                    <p data-i18n="roi_result_time">Plus ~15 hours of time back</p>
                 </div>
             </div>
         </div>
@@ -156,11 +185,11 @@
         <div class="container">
             <div class="form-container">
                 <div class="form-header">
-                    <h2 id="form-title">Get Your <span class="gradient-text">Custom Solution</span></h2>
-                    <p>Takes 60 seconds. No spam. Real humans respond.</p>
+                    <h2 id="form-title" data-i18n-html="form_title">Get Your <span class="gradient-text">Custom Solution</span></h2>
+                    <p data-i18n="form_subtitle">Takes 60 seconds. No spam. Real humans respond.</p>
                     <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                         <div class="progress-fill"></div>
-                        <span class="progress-text">0% Complete</span>
+                        <span class="progress-text" data-i18n="form_progress" data-i18n-params='{"percent": "0"}'>0% Complete</span>
                     </div>
                 </div>
                 
@@ -173,14 +202,14 @@
                     
                     <!-- Basic Info -->
                     <div class="form-group">
-                        <label for="email">Work Email <span class="required" aria-label="required">*</span></label>
-                        <input type="email" id="email" name="email" required placeholder="you@company.com" autocomplete="email">
+                        <label for="email" data-i18n="email_label">Work Email <span class="required" aria-label="required">*</span></label>
+                        <input type="email" id="email" name="email" required data-i18n-placeholder="email_placeholder" placeholder="you@company.com" autocomplete="email">
                         <div class="field-security-badge" aria-hidden="true">🔒 Secure</div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="company">Company Name</label>
-                        <input type="text" id="company" name="company" placeholder="Your Company" autocomplete="organization">
+                        <label for="company" data-i18n="company_label">Company Name</label>
+                        <input type="text" id="company" name="company" data-i18n-placeholder="company_placeholder" placeholder="Your Company" autocomplete="organization">
                     </div>
                     
                     <!-- Role -->
@@ -317,23 +346,23 @@
     <!-- Social Proof -->
     <section class="social-proof" aria-labelledby="social-proof-title">
         <div class="container">
-            <h2 id="social-proof-title">Early Validation Metrics</h2>
+            <h2 id="social-proof-title" data-i18n="social_proof_title">Early Validation Metrics</h2>
             <div class="stats-grid">
                 <div class="stat">
                     <div class="stat-number" data-target="73">0</div>
-                    <div class="stat-label">Businesses Interested</div>
+                    <div class="stat-label" data-i18n="social_proof_stats.businesses">Businesses Interested</div>
                 </div>
                 <div class="stat">
                     <div class="stat-number" data-target="82">0</div>
-                    <div class="stat-label">Willing to Pay (%)</div>
+                    <div class="stat-label" data-i18n="social_proof_stats.willing">Willing to Pay (%)</div>
                 </div>
                 <div class="stat">
                     <div class="stat-number" data-target="3.8">0</div>
-                    <div class="stat-label">Expected ROI (x)</div>
+                    <div class="stat-label" data-i18n="social_proof_stats.roi">Expected ROI (x)</div>
                 </div>
                 <div class="stat">
                     <div class="stat-number" data-target="8.4">0</div>
-                    <div class="stat-label">Avg Monthly Savings ($k)</div>
+                    <div class="stat-label" data-i18n="social_proof_stats.savings">Avg Monthly Savings ($k)</div>
                 </div>
             </div>
         </div>
@@ -342,23 +371,23 @@
     <!-- Countdown Timer -->
     <section class="countdown-section" aria-labelledby="countdown-title">
         <div class="container">
-            <h3 id="countdown-title">Beta Spots Close In:</h3>
+            <h3 id="countdown-title" data-i18n="countdown_title">Beta Spots Close In:</h3>
             <div class="countdown-timer" role="timer" aria-live="polite">
                 <div class="countdown-unit">
                     <span class="countdown-value" id="days">00</span>
-                    <span class="countdown-label">Days</span>
+                    <span class="countdown-label" data-i18n="countdown_labels.days">Days</span>
                 </div>
                 <div class="countdown-unit">
                     <span class="countdown-value" id="hours">00</span>
-                    <span class="countdown-label">Hours</span>
+                    <span class="countdown-label" data-i18n="countdown_labels.hours">Hours</span>
                 </div>
                 <div class="countdown-unit">
                     <span class="countdown-value" id="minutes">00</span>
-                    <span class="countdown-label">Minutes</span>
+                    <span class="countdown-label" data-i18n="countdown_labels.minutes">Minutes</span>
                 </div>
                 <div class="countdown-unit">
                     <span class="countdown-value" id="seconds">00</span>
-                    <span class="countdown-label">Seconds</span>
+                    <span class="countdown-label" data-i18n="countdown_labels.seconds">Seconds</span>
                 </div>
             </div>
         </div>
@@ -367,9 +396,9 @@
     <!-- Footer -->
     <footer role="contentinfo">
         <div class="container">
-            <p>© 2025 AdsOpti AI - Market Validation Phase</p>
-            <p>This is a validation page to test market demand before development</p>
-            <p>Questions? Email: <a href="mailto:founders@adsopti.ai">founders@adsopti.ai</a></p>
+            <p data-i18n="footer_copyright">© 2025 AdsOpti AI - Market Validation Phase</p>
+            <p data-i18n="footer_validation">This is a validation page to test market demand before development</p>
+            <p><span data-i18n="footer_questions">Questions? Email:</span> <a href="mailto:founders@adsopti.ai">founders@adsopti.ai</a></p>
         </div>
     </footer>
     
@@ -377,11 +406,11 @@
     <div class="exit-popup" id="exitPopup" role="dialog" aria-modal="true" aria-labelledby="exit-popup-title" style="display: none;">
         <div class="exit-popup-content">
             <button class="exit-popup-close" aria-label="Close popup">&times;</button>
-            <h3 id="exit-popup-title">Wait! Don't miss out on 65% ad waste reduction</h3>
-            <p>Join 500+ businesses already saving thousands monthly. Get notified when we launch:</p>
+            <h3 id="exit-popup-title" data-i18n="exit_popup_title">Wait! Don't miss out on 65% ad waste reduction</h3>
+            <p data-i18n="exit_popup_text">Join 500+ businesses already saving thousands monthly. Get notified when we launch:</p>
             <form class="exit-popup-form">
-                <input type="email" placeholder="Enter your email" required>
-                <button type="submit" class="btn btn-secondary">Notify Me</button>
+                <input type="email" data-i18n-placeholder="exit_popup_placeholder" placeholder="Enter your email" required>
+                <button type="submit" class="btn btn-secondary" data-i18n="exit_popup_button">Notify Me</button>
             </form>
         </div>
     </div>
@@ -390,6 +419,7 @@
     <div class="activity-notifications" aria-live="polite" aria-atomic="true"></div>
     
     <!-- Scripts -->
+    <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
