@@ -1162,32 +1162,107 @@ class ExitIntentManager {
         this.isShown = false;
         this.mouseLeaveTimer = null;
         
+        // Smart timing controls
+        this.minTimeOnSite = 30000; // 30 seconds minimum on site
+        this.minScrollDepth = 25; // Must scroll at least 25% of page
+        this.exitAttempts = 0;
+        this.maxDailyShows = 1; // Only show once per day
+        this.siteEntryTime = Date.now();
+        this.hasEngaged = false;
+        
         this.init();
     }
 
     init() {
-        if (!this.popup || appState.isExitPopupShown) return;
+        if (!this.popup) return;
+        
+        // Check daily limit
+        if (this.hasReachedDailyLimit()) return;
         
         this.setupEventListeners();
+        this.trackEngagement();
+    }
+
+    hasReachedDailyLimit() {
+        const today = new Date().toDateString();
+        const lastShown = localStorage.getItem('exit_popup_last_shown');
+        const showCount = parseInt(localStorage.getItem('exit_popup_daily_count') || '0');
+        
+        if (lastShown === today && showCount >= this.maxDailyShows) {
+            return true;
+        }
+        
+        // Reset count for new day
+        if (lastShown !== today) {
+            localStorage.setItem('exit_popup_daily_count', '0');
+        }
+        
+        return false;
+    }
+
+    trackEngagement() {
+        // Track form interactions as engagement
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('focus', () => {
+                this.hasEngaged = true;
+            });
+        });
+
+        // Track pain point selections as engagement
+        document.querySelectorAll('.pain-card').forEach(card => {
+            card.addEventListener('click', () => {
+                this.hasEngaged = true;
+            });
+        });
+
+        // Track ROI calculator usage as engagement
+        document.getElementById('monthly-spend')?.addEventListener('input', () => {
+            this.hasEngaged = true;
+        });
     }
 
     setupEventListeners() {
-        // Mouse leave detection (desktop)
+        // Mouse leave detection (desktop) with smart conditions
         document.addEventListener('mouseleave', (e) => {
             if (e.clientY <= 0 && !this.isShown) {
-                this.show();
+                this.exitAttempts++;
+                
+                // Only show after multiple attempts or with engagement
+                if (this.exitAttempts >= 2 || this.hasEngaged) {
+                    // Add delay to prevent accidental triggers
+                    this.mouseLeaveTimer = setTimeout(() => {
+                        if (this.shouldShowPopup()) {
+                            this.show();
+                        }
+                    }, 800); // 800ms delay
+                }
+            }
+        });
+
+        // Cancel timer if mouse returns quickly
+        document.addEventListener('mouseenter', () => {
+            if (this.mouseLeaveTimer) {
+                clearTimeout(this.mouseLeaveTimer);
+                this.mouseLeaveTimer = null;
             }
         });
         
-        // Mobile: detect rapid scroll to top
+        // Mobile: detect scroll to top with smart conditions
         let lastScrollY = window.scrollY;
         let scrollUpCount = 0;
         
         window.addEventListener('scroll', () => {
             if (window.scrollY < lastScrollY) {
                 scrollUpCount++;
-                if (scrollUpCount > 5 && window.scrollY < 100 && !this.isShown) {
-                    this.show();
+                // More conservative mobile detection
+                if (scrollUpCount > 8 && window.scrollY < 50 && !this.isShown && this.hasEngaged) {
+                    if (this.shouldShowPopup()) {
+                        setTimeout(() => {
+                            if (this.shouldShowPopup()) {
+                                this.show();
+                            }
+                        }, 1000); // 1 second delay for mobile
+                    }
                 }
             } else {
                 scrollUpCount = 0;
@@ -1219,12 +1294,39 @@ class ExitIntentManager {
         });
     }
 
+    shouldShowPopup() {
+        // Check if already shown
+        if (this.isShown) return false;
+
+        // Check daily limit
+        if (this.hasReachedDailyLimit()) return false;
+
+        // Check minimum time on site
+        const timeOnSite = Date.now() - this.siteEntryTime;
+        if (timeOnSite < this.minTimeOnSite) return false;
+
+        // Check scroll depth
+        const scrollPercent = Math.round(
+            (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+        );
+        if (scrollPercent < this.minScrollDepth) return false;
+
+        // All conditions met
+        return true;
+    }
+
     show() {
         if (this.isShown || !this.popup) return;
         
         this.isShown = true;
         appState.isExitPopupShown = true;
         sessionStorage.setItem(CONFIG.EXIT_SHOWN_KEY, 'true');
+        
+        // Update daily tracking
+        const today = new Date().toDateString();
+        const currentCount = parseInt(localStorage.getItem('exit_popup_daily_count') || '0');
+        localStorage.setItem('exit_popup_daily_count', (currentCount + 1).toString());
+        localStorage.setItem('exit_popup_last_shown', today);
         
         this.popup.classList.add('show');
         this.popup.style.display = 'flex';
@@ -1233,8 +1335,16 @@ class ExitIntentManager {
         const emailInput = this.popup.querySelector('input[type="email"]');
         setTimeout(() => emailInput?.focus(), 300);
         
-        // Track event
+        // Enhanced analytics tracking
         Analytics.trackExitIntent();
+        Analytics.track('exit_popup_smart_conditions', {
+            time_on_site: Date.now() - this.siteEntryTime,
+            exit_attempts: this.exitAttempts,
+            has_engaged: this.hasEngaged,
+            scroll_depth: Math.round(
+                (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+            )
+        });
     }
 
     hide() {
