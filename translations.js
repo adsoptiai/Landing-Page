@@ -126,7 +126,7 @@ const translations = {
         loading_text: 'Processing your request...',
         success_message: '🎉 Perfect! Check your email in the next 24 hours for your personalized solution + beta access details.',
         
-        privacy_promise: '<strong>Privacy Promise:</strong> We\'ll only use your info to send you beta access details and product updates. No spam, no sharing with third parties. You can unsubscribe anytime. Questions? Email founders@adsopti.ai',
+        privacy_promise: '<strong>Privacy Promise:</strong> We\'ll only use your info to send you beta access details and product updates. No spam, no sharing with third parties. You can unsubscribe anytime.',
         
         // Social Proof
         social_proof_title: 'Early Validation Metrics',
@@ -149,7 +149,6 @@ const translations = {
         // Footer
         footer_copyright: '© 2025 AdsOpti AI - Market Validation Phase',
         footer_validation: 'This is a validation page to test market demand before development',
-        footer_questions: 'Questions? Email:',
         
         // Exit Popup
         exit_popup_title: 'Wait! Don\'t miss out on 65% ad waste reduction',
@@ -304,7 +303,7 @@ const translations = {
         loading_text: '正在處理您的請求...',
         success_message: '🎉 完美！請在24小時內查看您的信箱，獲取個人化解決方案和測試版權限詳情。',
         
-        privacy_promise: '<strong>隱私承諾：</strong>我們只會使用您的資訊發送測試版權限詳情和產品更新。無垃圾郵件，不與第三方分享。您隨時可以取消訂閱。問題？請郵件：founders@adsopti.ai',
+        privacy_promise: '<strong>隱私承諾：</strong>我們只會使用您的資訊發送測試版權限詳情和產品更新。無垃圾郵件，不與第三方分享。您隨時可以取消訂閱。',
         
         // Social Proof
         social_proof_title: '早期驗證指標',
@@ -327,7 +326,6 @@ const translations = {
         // Footer
         footer_copyright: '© 2025 AdsOpti AI - 市場驗證階段',
         footer_validation: '這是一個驗證頁面，用於在開發前測試市場需求',
-        footer_questions: '問題？請郵件：',
         
         // Exit Popup
         exit_popup_title: '等等！別錯過65%廣告浪費減少機會',
