@@ -214,38 +214,38 @@
                     
                     <!-- Role -->
                     <div class="form-group">
-                        <label for="role">Your Role <span class="required" aria-label="required">*</span></label>
+                        <label for="role" data-i18n="role_label">Your Role <span class="required" aria-label="required">*</span></label>
                         <select id="role" name="role" required>
-                            <option value="">Select your role</option>
-                            <option value="marketing-manager">Marketing Manager</option>
-                            <option value="agency-owner">Agency Owner/Director</option>
-                            <option value="ecommerce">E-commerce Manager</option>
-                            <option value="founder">Founder/CEO</option>
-                            <option value="growth">Growth/Performance Marketer</option>
-                            <option value="other">Other</option>
+                            <option value="" data-i18n="role_placeholder">Select your role</option>
+                            <option value="marketing-manager" data-i18n="role_options.marketing-manager">Marketing Manager</option>
+                            <option value="agency-owner" data-i18n="role_options.agency-owner">Agency Owner/Director</option>
+                            <option value="ecommerce" data-i18n="role_options.ecommerce">E-commerce Manager</option>
+                            <option value="founder" data-i18n="role_options.founder">Founder/CEO</option>
+                            <option value="growth" data-i18n="role_options.growth">Growth/Performance Marketer</option>
+                            <option value="other" data-i18n="role_options.other">Other</option>
                         </select>
                     </div>
                     
                     <!-- Ad Spend -->
                     <div class="form-group">
                         <fieldset>
-                            <legend>Monthly Ad Spend <span class="required" aria-label="required">*</span></legend>
+                            <legend data-i18n="ad_spend_label">Monthly Ad Spend <span class="required" aria-label="required">*</span></legend>
                             <div class="radio-group">
                                 <label class="radio-option">
                                     <input type="radio" name="ad_spend" value="1k-5k" required>
-                                    <span>$1,000 - $5,000</span>
+                                    <span data-i18n="ad_spend_options.1k-5k">$1,000 - $5,000</span>
                                 </label>
                                 <label class="radio-option">
                                     <input type="radio" name="ad_spend" value="5k-25k" required>
-                                    <span>$5,000 - $25,000</span>
+                                    <span data-i18n="ad_spend_options.5k-25k">$5,000 - $25,000</span>
                                 </label>
                                 <label class="radio-option">
                                     <input type="radio" name="ad_spend" value="25k-50k" required>
-                                    <span>$25,000 - $50,000</span>
+                                    <span data-i18n="ad_spend_options.25k-50k">$25,000 - $50,000</span>
                                 </label>
                                 <label class="radio-option">
                                     <input type="radio" name="ad_spend" value="50k+" required>
-                                    <span>$50,000+</span>
+                                    <span data-i18n="ad_spend_options.50k+">$50,000+</span>
                                 </label>
                             </div>
                         </fieldset>
@@ -254,35 +254,35 @@
                     <!-- Features Interest -->
                     <div class="form-group">
                         <fieldset>
-                            <legend>Which features would solve your biggest pain? (Check all that apply)</legend>
+                            <legend data-i18n="features_label">Which features would solve your biggest pain? (Check all that apply)</legend>
                             <div class="feature-grid">
                                 <label class="checkbox-option">
                                     <input type="checkbox" name="features" value="real-time-optimization">
-                                    <span>Real-time bid optimization across platforms</span>
+                                    <span data-i18n="features_options.real-time-optimization">Real-time bid optimization across platforms</span>
                                 </label>
                                 <label class="checkbox-option">
                                     <input type="checkbox" name="features" value="unified-dashboard">
-                                    <span>Unified dashboard for all platforms</span>
+                                    <span data-i18n="features_options.unified-dashboard">Unified dashboard for all platforms</span>
                                 </label>
                                 <label class="checkbox-option">
                                     <input type="checkbox" name="features" value="automated-testing">
-                                    <span>Automated A/B creative testing</span>
+                                    <span data-i18n="features_options.automated-testing">Automated A/B creative testing</span>
                                 </label>
                                 <label class="checkbox-option">
                                     <input type="checkbox" name="features" value="budget-allocation">
-                                    <span>AI budget allocation</span>
+                                    <span data-i18n="features_options.budget-allocation">AI budget allocation</span>
                                 </label>
                                 <label class="checkbox-option">
                                     <input type="checkbox" name="features" value="competitor-intel">
-                                    <span>Competitor ad intelligence</span>
+                                    <span data-i18n="features_options.competitor-intel">Competitor ad intelligence</span>
                                 </label>
                                 <label class="checkbox-option">
                                     <input type="checkbox" name="features" value="slack-alerts">
-                                    <span>Slack/email alerts for anomalies</span>
+                                    <span data-i18n="features_options.slack-alerts">Slack/email alerts for anomalies</span>
                                 </label>
                                 <label class="checkbox-option">
                                     <input type="checkbox" name="features" value="white-label">
-                                    <span>White-label reporting for clients</span>
+                                    <span data-i18n="features_options.white-label">White-label reporting for clients</span>
                                 </label>
                             </div>
                         </fieldset>
@@ -291,23 +291,23 @@
                     <!-- Pricing Expectation -->
                     <div class="form-group">
                         <fieldset>
-                            <legend>What would you pay monthly for 65% ad waste reduction? <span class="required" aria-label="required">*</span></legend>
+                            <legend data-i18n="pricing_label">What would you pay monthly for 65% ad waste reduction? <span class="required" aria-label="required">*</span></legend>
                             <div class="radio-group">
                                 <label class="radio-option">
                                     <input type="radio" name="pricing" value="99-199" required>
-                                    <span>$99-199 (Starter)</span>
+                                    <span data-i18n="pricing_options.99-199">$99-199 (Starter)</span>
                                 </label>
                                 <label class="radio-option">
                                     <input type="radio" name="pricing" value="200-399" required>
-                                    <span>$200-399 (Growth)</span>
+                                    <span data-i18n="pricing_options.200-399">$200-399 (Growth)</span>
                                 </label>
                                 <label class="radio-option">
                                     <input type="radio" name="pricing" value="400-699" required>
-                                    <span>$400-699 (Scale)</span>
+                                    <span data-i18n="pricing_options.400-699">$400-699 (Scale)</span>
                                 </label>
                                 <label class="radio-option">
                                     <input type="radio" name="pricing" value="performance" required>
-                                    <span>Performance-based (% of savings)</span>
+                                    <span data-i18n="pricing_options.performance">Performance-based (% of savings)</span>
                                 </label>
                             </div>
                         </fieldset>
@@ -315,28 +315,28 @@
                     
                     <!-- Main Frustration -->
                     <div class="form-group">
-                        <label for="frustration">What's your #1 ad management frustration? <span class="required" aria-label="required">*</span></label>
-                        <textarea id="frustration" name="frustration" required placeholder="Be specific - the more detail, the better we can help"></textarea>
+                        <label for="frustration" data-i18n="frustration_label">What's your #1 ad management frustration? <span class="required" aria-label="required">*</span></label>
+                        <textarea id="frustration" name="frustration" required data-i18n-placeholder="frustration_placeholder" placeholder="Be specific - the more detail, the better we can help"></textarea>
                     </div>
                     
                     <button type="submit" class="btn btn-primary" id="submit-btn">
-                        <span class="btn-text">Get Early Beta Access →</span>
+                        <span class="btn-text" data-i18n="submit_button">Get Early Beta Access →</span>
                         <div class="btn-ripple"></div>
                     </button>
                     
                     <div class="loading" role="status" aria-live="polite">
                         <div class="spinner"></div>
-                        Processing your request...
+                        <span data-i18n="loading_text">Processing your request...</span>
                     </div>
                     
                     <div class="success-message" role="alert" aria-live="assertive">
                         <div class="confetti" aria-hidden="true"></div>
-                        🎉 Perfect! Check your email in the next 24 hours for your personalized solution + beta access details.
+                        <span data-i18n="success_message">🎉 Perfect! Check your email in the next 24 hours for your personalized solution + beta access details.</span>
                     </div>
                     
                     <div class="privacy-note">
                         <div class="security-badge" aria-hidden="true">🔒</div>
-                        <strong>Privacy Promise:</strong> We'll only use your info to send you beta access details and product updates. No spam, no sharing with third parties. You can unsubscribe anytime. Questions? Email founders@adsopti.ai
+                        <span data-i18n-html="privacy_promise"><strong>Privacy Promise:</strong> We'll only use your info to send you beta access details and product updates. No spam, no sharing with third parties. You can unsubscribe anytime. Questions? Email founders@adsopti.ai</span>
                     </div>
                 </form>
             </div>
