@@ -20,7 +20,7 @@ const translations = {
         hero_title_waste: '44% of Budget',
         hero_title_fix: 'Fix It in One Click.',
         hero_title_full: 'Your Ads Waste <span class="gradient-text typing-text" data-text="{waste}">44% of Budget</span>.<br><span class="typing-text" data-text="{fix}">Fix It in One Click.</span>',
-        hero_subtitle: 'Join {count}+ businesses already testing smarter ad management. Average savings: $8,400/month. Setup time: 10 minutes.',
+        hero_subtitle: 'Join business already testing smarter ad management. Average savings: $8,400/month. Setup time: 10 minutes.',
         
         // Pain Points Section
         pain_points_title: 'Which Problems Are <span class="gradient-text">Killing Your ROI?</span>',
@@ -197,7 +197,7 @@ const translations = {
         hero_title_waste: '44%的預算',
         hero_title_fix: '一鍵解決。',
         hero_title_full: '您的廣告浪費了<span class="gradient-text typing-text" data-text="{waste}">44%的預算</span>。<br><span class="typing-text" data-text="{fix}">一鍵解決。</span>',
-        hero_subtitle: '加入{count}+家企業，正在測試更智能的廣告管理。平均節省：每月$8,400美元。設置時間：10分鐘。',
+        hero_subtitle: '加入企業，正在測試更智能的廣告管理。平均節省：每月$8,400美元。設置時間：10分鐘。',
         
         // Pain Points Section
         pain_points_title: '哪些問題正在<span class="gradient-text">扼殺您的投資回報率？</span>',
