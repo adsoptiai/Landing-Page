@@ -193,7 +193,7 @@ const translations = {
         nav_badge: '測試版',
         
         // Hero Section
-        urgency_bar: '限量測試版：100個名額剩餘 {spots} 個',
+        urgency_bar: '限量測試版',
         hero_title_waste: '44%的預算',
         hero_title_fix: '一鍵解決。',
         hero_title_full: '您的廣告浪費了<span class="gradient-text typing-text" data-text="{waste}">44%的預算</span>。<br><span class="typing-text" data-text="{fix}">一鍵解決。</span>',
